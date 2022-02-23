@@ -42,6 +42,7 @@ function count(){
 	}
 
 	let debugField4 = document.getElementById("text4");
+	debugField4 = "";
 	procents = sberbankProcents(sum, months);
 	let monthPayments = calc(sum, procents, months);
 	let totalSum = monthPayments*months;
