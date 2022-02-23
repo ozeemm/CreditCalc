@@ -36,6 +36,19 @@
 			font-size: 50px;
 			text-align: center;
 		}
+		table {
+		  table-layout: auto;
+		  width: 50%;
+		  font-family: "Times New Roman";
+		  font-size: 23px;
+		  border-collapse: collapse;
+  		  border: 2px solid green;
+  		  border-radius: 10px;
+		}
+		th, td {
+		  text-align: center;
+		  padding: 10px;
+		}
 	</style>
 </head>
 
@@ -53,6 +66,8 @@
 	<p><div id="text2"></div></p>
 	<p><div id="text3"></div></p>
 
-	<p><img src="test.gif"></p>
-	<p><div id="text4"></div></p>
+	<h2 id="pretable-text" hidden="true" align="center">Предложения банков:</h2>
+	<table id="table1" border=1 align="center" hidden="true">
+
+	</table>
 </body>

@@ -1,8 +1,12 @@
 function calc(sum, procents, months)
 {
-	let k = 1 + procents/1200 // коэффициент начисления процентов
-	let x = Math.round((sum * (k**months)) / ((k**months-1)/(k-1))); // Ежемесячная выплата по формуле
-	return x
+	if(procents != 0){
+		let k = 1 + procents/1200 // коэффициент начисления процентов
+		let x = Math.round((sum * (k**months)) / ((k**months-1)/(k-1))); // Ежемесячная выплата по формуле
+		return x
+	}
+	else
+		return Math.round(sum/months);
 }
 
 function count(){
@@ -17,7 +21,7 @@ function count(){
 		alert("Не все данные введены");
 		return;
 	}	
-	if(sum <= 0 || procents <= 0 || procents > 100 || months <= 0){
+	if((sum <= 0 || months <= 0) || (procents != "" && (procents > 100 || procents < 0))){
 		alert("Неверно введены данные");
 		return;
 	}
@@ -41,61 +45,58 @@ function count(){
 		console.log(overPayment);
 	}
 
-	let debugField4 = document.getElementById("text4");
-	debugField4.innerHTML = "";
-	procents = sberbankProcents(sum, months);
-	let monthPayments = calc(sum, procents, months);
-	let totalSum = monthPayments*months;
-	let overPayment = totalSum - sum;
-	debugField4.innerHTML += "Сбербанк: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
+	let procentsList = [["Сбербанк", sberbankProcents(sum, months), "img/sberbank.png", 2560/402],
+						["ВТБ", vtbProcents(sum, months), "img/vtb.png", 375/134],
+						["Альфа-Банк", alphaProcents(sum, months), "img/alpha-bank.png", 2506/901],
+						["Газпромбанк", gazpromProcents(sum, months), "img/gazprombank.png", 1437/331],
+					    ["Райффайзен Банк", raiffProcents(sum, months), "img/raiff.png", 2560/684],
+				        ["Совкомбанк", sovkomProcents(sum, months), "img/sovkombank.png", 1280/166],
+					    ["Банк Открытие", otkritieProcents(sum, months), "img/otkritie.png", 1115/242],
+					    ["Тинькофф Банк", tinkoffProcents(sum, months), "img/tinkoff.png", 1503/480],
+					    ["Почта Банк", pochtaProcents(sum, months), "img/pochtabank.png", 1475/721]];
+	procentsList = bubbleSort(procentsList);
+	console.log(procentsList);
 
-	procents = vtbProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "ВТБ: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
+	let table = document.getElementById("table1");	
+	let pretableText = document.getElementById("pretable-text");
+	let firstLine = "<tr> <td>Банк</td> <td>Процентная ставка</td> <td>Ежемесячная выплата</td> <td>Общая выплата</td> <td>Переплата</td> </tr>";
+	table.innerHTML = firstLine;
+	let tableCount = 0;
+	for (var i = 0; i < procentsList.length; i++) {
+		name = procentsList[i][0];
+		procents = procentsList[i][1];
+		if(procents != null)
+		{
+			monthPayments = calc(sum, procents, months);
+			totalSum = monthPayments*months;
+			overPayment = totalSum - sum;	
+			imgSource = procentsList[i][2];
+			height = 40;
+			width = height*procentsList[i][3];
+			tableText = "<tr> <td><img width="+width+" height="+height+" src="+imgSource+"></td> <td>"+procents+"%</td> <td>"+monthPayments+"₽</td> <td>"+totalSum+"₽</td> <td>"+overPayment+"₽</td> </tr>"
+			table.innerHTML += tableText;
+			tableCount += 1;
+		}
+	}
 
-	procents = alphaProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "Альфа-Банк: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
+	table.hidden = !(tableCount > 0);
+	pretableText.hidden = !(tableCount > 0);
+}
 
-	procents = gazpromProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "Газпромбанк: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
-
-	procents = raiffProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "Райффайзен Банк: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
-
-	procents = sovkomProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "Совкомбанк: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
-
-	procents = otkritieProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "Банк Открытие: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
-
-	procents = tinkoffProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "Тинькофф Банк: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";
-
-	procents = pochtaProcents(sum, months);
-	monthPayments = calc(sum, procents, months);
-	totalSum = monthPayments*months;
-	overPayment = totalSum - sum;
-	debugField4.innerHTML += "Почта Банк: " + procents + "% " + monthPayments + "₽ " + totalSum + "₽ " + overPayment + "₽ </br>";		
+function bubbleSort(arr) {
+    for (var i = 0, endI = arr.length - 1; i < endI; i++) {
+        var wasSwap = false;
+        for (var j = 0, endJ = endI - i; j < endJ; j++) {
+            if (arr[j][1] > arr[j + 1][1]) {
+                var swap = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = swap;
+                wasSwap = true;
+            }
+        }
+        if (!wasSwap) break;
+    }
+    return arr;
 }
 
 function sberbankProcents(sum, months){
@@ -184,9 +185,9 @@ function sovkomProcents(sum, months){
 	if(6 <= months && months <= 60){
 		if(sum < 5000 || sum > 30000000)
 			return null
-		if(5000 <= sum < 100000)
+		if(5000 <= sum && sum < 100000)
 			procents = 0;
-		if(100000 <= sum < 30000000)
+		if(100000 <= sum && sum < 30000000)
 			procents = 6.9;
 		return procents;
 	}
