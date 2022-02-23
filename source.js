@@ -16,6 +16,9 @@ function count(){
 	let isMonths = document.getElementById("toggle-months").checked;
 	if(!isMonths)
 		months *= 12;
+	let debugField1 = document.getElementById("text1");
+	let debugField2 = document.getElementById("text2");
+	let debugField3 = document.getElementById("text3");
 
 	if(sum == "" || months == ""){
 		alert("Не все данные введены");
@@ -31,18 +34,19 @@ function count(){
 		let totalSum = monthPayments*months;
 		let overPayment = totalSum - sum;
 
-		let debugField1 = document.getElementById("text1");
 		debugField1.innerHTML = "Ежемесячная выплата: " + monthPayments + "₽";
-
-		let debugField2 = document.getElementById("text2");
 		debugField2.innerHTML = "Общая выплата: " + totalSum + "₽";
-
-		let debugField3 = document.getElementById("text3");
 		debugField3.innerHTML = "Переплата: " + overPayment + "₽";
 
 		console.log(monthPayments);
 		console.log(totalSum);
 		console.log(overPayment);
+	}
+	else
+	{
+		debugField1.innerHTML = "";
+		debugField2.innerHTML = "";
+		debugField3.innerHTML = "";
 	}
 
 	let procentsList = [["Сбербанк", sberbankProcents(sum, months), "img/sberbank.png", 2560/402],
