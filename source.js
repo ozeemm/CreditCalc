@@ -1,8 +1,8 @@
 function calc(sum, procents, months)
 {
 	if(procents != 0){
-		let k = 1 + procents/1200 // коэффициент начисления процентов
-		let x = Math.round((sum * (k**months)) / ((k**months-1)/(k-1))); // Ежемесячная выплата по формуле
+		let k = 1 + procents/1200;
+		let x = Math.round((sum * (k**months)) / ((k**months-1)/(k-1)));
 		return x
 	}
 	else
@@ -82,9 +82,16 @@ function count(){
 			tableCount += 1;
 		}
 	}
-
-	table.hidden = !(tableCount > 0);
-	pretableText.hidden = !(tableCount > 0);
+	if(tableCount > 0){
+		pretableText.innerHTML = "Предложения банков:";
+		pretableText.hidden = false;
+		table.hidden = false;
+	}
+	else{
+		pretableText.innerHTML = "Нет предложений банков с введенной суммой кредита и/или сроком выплаты";
+		pretableText.hidden = false;
+		table.hidden = true;
+	}
 }
 
 function bubbleSort(arr) {
