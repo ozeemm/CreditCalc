@@ -49,15 +49,15 @@ function count(){
 		debugField3.innerHTML = "";
 	}
 
-	let procentsList = [["Сбербанк", sberbankProcents(sum, months), "img/sberbank.png", 2560/402],
-						["ВТБ", vtbProcents(sum, months), "img/vtb.png", 375/134],
-						["Альфа-Банк", alphaProcents(sum, months), "img/alpha-bank.png", 2506/901],
-						["Газпромбанк", gazpromProcents(sum, months), "img/gazprombank.png", 1437/331],
-					    ["Райффайзен Банк", raiffProcents(sum, months), "img/raiff.png", 2560/684],
-				        ["Совкомбанк", sovkomProcents(sum, months), "img/sovkombank.png", 1280/166],
-					    ["Банк Открытие", otkritieProcents(sum, months), "img/otkritie.png", 1115/242],
-					    ["Тинькофф Банк", tinkoffProcents(sum, months), "img/tinkoff.png", 1503/480],
-					    ["Почта Банк", pochtaProcents(sum, months), "img/pochtabank.png", 1475/721]];
+	let procentsList = [["Сбербанк", sberbankProcents(sum, months), "img/sberbank.png", 2560/402, "https://www.sberbank.ru/ru/person"],
+						["ВТБ", vtbProcents(sum, months), "img/vtb.png", 375/134, "https://www.vtb.ru/"],
+						["Альфа-Банк", alphaProcents(sum, months), "img/alpha-bank.png", 2506/901, "https://alfabank.ru/"],
+						["Газпромбанк", gazpromProcents(sum, months), "img/gazprombank.png", 1437/331, "https://www.gazprombank.ru/"],
+					    ["Райффайзен Банк", raiffProcents(sum, months), "img/raiff.png", 2560/684, "https://www.raiffeisen.ru/"],
+				        ["Совкомбанк", sovkomProcents(sum, months), "img/sovkombank.png", 1280/166, "https://sovcombank.ru/"],
+					    ["Банк Открытие", otkritieProcents(sum, months), "img/otkritie.png", 1115/242, "https://www.open.ru/"],
+					    ["Тинькофф Банк", tinkoffProcents(sum, months), "img/tinkoff.png", 1503/480, "https://www.tinkoff.ru/"],
+					    ["Почта Банк", pochtaProcents(sum, months), "img/pochtabank.png", 1475/721, "https://www.pochtabank.ru/"]];
 	procentsList = bubbleSort(procentsList);
 	console.log(procentsList);
 
@@ -77,7 +77,8 @@ function count(){
 			imgSource = procentsList[i][2];
 			height = 40;
 			width = height*procentsList[i][3];
-			tableText = "<tr> <td><img width="+width+" height="+height+" src="+imgSource+"></td> <td>"+procents+"%</td> <td>"+monthPayments+"₽</td> <td>"+totalSum+"₽</td> <td>"+overPayment+"₽</td> </tr>"
+			console.log(procentsList[i][4]);
+			tableText = "<tr> <td><a href="+procentsList[i][4]+" target=_blank><img width="+width+" height="+height+" src="+imgSource+"></a></td> <td>"+procents+"%</td> <td>"+monthPayments+"₽</td> <td>"+totalSum+"₽</td> <td>"+overPayment+"₽</td> </tr>"
 			table.innerHTML += tableText;
 			tableCount += 1;
 		}
